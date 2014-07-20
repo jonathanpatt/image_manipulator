@@ -5,7 +5,7 @@ use image_manipulator\ImageManipulator;
 
 class Image
 {
-    public static function process($source, $destination, $newWidth, $newHeight)
+    public static function process($source, $destination, $newWidth, $newHeight, $action = 'cropToFitAndResize')
     {
         if ($newWidth > 0 && $newHeight > 0) {
             $sizeMessage = "Uploaded image must be at least {$newWidth}px by {$newHeight}px.";
@@ -25,7 +25,13 @@ class Image
         }
 
         try {
-            $img->cropToFitAndResize($newWidth, $newHeight);
+            if ($action == 'cropToFitAndResize') {
+                $img->cropToFitAndResize($newWidth, $newHeight);
+            } else if ($action == 'crop') {
+                $img->crop($newWidth, $newHeight);
+            } else if ($action == 'resize') {
+                $img->resize($newWidth, $newHeight);
+            }
         } catch (LargerThanSourceException $e) {
             throw new \Exception(
                 $sizeMessage .  ' Try again with a larger image.'
