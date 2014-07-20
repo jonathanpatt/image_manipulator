@@ -82,6 +82,14 @@ class ImageManipulator
      */
     public function crop($cropWidth, $cropHeight)
     {
+        if ($cropWidth == 0) {
+            $cropWidth = $this->width();
+        }
+
+        if ($cropHeight == 0) {
+            $cropHeight = $this->height();
+        }
+
         if ($cropWidth > $this->width() || $cropHeight > $this->height()) {
             throw new LargerThanSourceException(
                 'Crop dimensions cannot be larger than source image.'
@@ -119,6 +127,14 @@ class ImageManipulator
      */
     public function resize($newWidth, $newHeight)
     {
+        if ($newWidth == 0) {
+            $newWidth = $newHeight / $this->height() * $this->width();
+        }
+
+        if ($newHeight == 0) {
+            $newHeight = $newWidth / $this->width() & $this->height();
+        }
+
         if ($newWidth > $this->width() || $newHeight > $this->height()) {
             throw new LargerThanSourceException(
                 'Resize dimensions cannot be larger than source image.'
@@ -158,6 +174,14 @@ class ImageManipulator
      */
     public function cropToFitAndResize($newWidth, $newHeight)
     {
+        if ($newWidth == 0) {
+            $newWidth = $this->width();
+        }
+
+        if ($newHeight == 0) {
+            $newHeight = $this->height();
+        }
+
         if ($this->width() < $newWidth || $this->height() < $newHeight) {
             throw new LargerThanSourceException(
                 'Final dimensions cannot be larger than source image.'

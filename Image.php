@@ -7,6 +7,13 @@ class Image
 {
     public static function process($source, $destination, $newWidth, $newHeight)
     {
+        if ($newWidth > 0 && $newHeight > 0) {
+            $sizeMessage = "Uploaded image must be at least {$newWidth}px by {$newHeight}px.";
+        } else if ($newWidth == 0) {
+            $sizeMessage = "Uploaded image must be at least {$newHeight}px tall.";
+        } else if ($newHeight == 0) {
+            $sizeMessage = "Uploaded image must be at least {$newWidth}px wide.";
+        }
 
         try {
             $img = new ImageManipulator($source['tmp_name']);
@@ -21,8 +28,7 @@ class Image
             $img->cropToFitAndResize($newWidth, $newHeight);
         } catch (LargerThanSourceException $e) {
             throw new \Exception(
-                "Uploaded image must be at least {$newWidth}px by {$newHeight}px. " .
-                'Try again with a larger image.'
+                $sizeMessage .  ' Try again with a larger image.'
             );
         }
         
