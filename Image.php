@@ -7,7 +7,6 @@ class Image
 {
     public static function process($source, $destination, $newWidth, $newHeight)
     {
-        @unlink($destination);
 
         try {
             $img = new ImageManipulator($source['tmp_name']);
@@ -26,6 +25,8 @@ class Image
                 'Try again with a larger image.'
             );
         }
+        
+        @unlink($destination);
 
         try {
             $img->saveJPG($destination);
