@@ -219,12 +219,16 @@ class ImageManipulator
      * @throws CouldNotSaveFileException
      * @author Jonathan Patt <jonathanpatt@gmail.com>
      */
-    public function saveJPG($path, $quality = 90)
+    public function saveJPG($path = false, $quality = 90)
     {
-        if (!@imagejpeg($this->image, $path, $quality)) {
-            throw new CouldNotSaveFileException('Unable to save JPG file.');
+        if ($path) {
+            if (!@imagejpeg($this->image, $path, $quality)) {
+                throw new CouldNotSaveFileException('Unable to save JPG file.');
+            }
+        } else {
+            header('Content-Type: image/jpeg');
+            imagejpeg($this->image, null, $quality);
         }
-        
     }
     
     /**
@@ -237,7 +241,7 @@ class ImageManipulator
      *
      * @author Jonathan Patt <jonathanpatt@gmail.com>
      */
-    public function saveJPEG($path, $quality = 90)
+    public function saveJPEG($path = false, $quality = 90)
     {
         $this->saveJPG($path, $quality);
     }
@@ -252,10 +256,15 @@ class ImageManipulator
      * @throws CouldNotSaveFileException
      * @author Jonathan Patt <jonathanpatt@gmail.com>
      */
-    public function savePNG($path)
+    public function savePNG($path = false)
     {
-        if (!@imagepng($this->image, $path)) {
-            throw new CouldNotSaveFileException('Unable to save PNG file.');
+        if ($path) {
+            if (!@imagepng($this->image, $path)) {
+                throw new CouldNotSaveFileException('Unable to save PNG file.');
+            }
+        } else {
+            header('Content-Type: image/png');
+            imagepng($this->image);
         }
     }
     
@@ -269,10 +278,15 @@ class ImageManipulator
      * @throws CouldNotSaveFileException
      * @author Jonathan Patt <jonathanpatt@gmail.com>
      */
-    public function saveGIF($path)
+    public function saveGIF($path = false)
     {
-        if (!@imagegif($this->image, $path)) {
-            throw new CouldNotSaveFileException('Unable to save GIF file.');
+        if ($path) {
+            if (!@imagegif($this->image, $path)) {
+                throw new CouldNotSaveFileException('Unable to save GIF file.');
+            }
+        } else {
+            header('Content-Type: image/gif');
+            imagegif($this->image);
         }
     }
 }
