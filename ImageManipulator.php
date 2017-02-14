@@ -132,7 +132,7 @@ class ImageManipulator
         }
 
         if ($newHeight == 0) {
-            $newHeight = $newWidth / $this->width() & $this->height();
+            $newHeight = $newWidth / $this->width() * $this->height();
         }
 
         if ($newWidth > $this->width() || $newHeight > $this->height()) {
